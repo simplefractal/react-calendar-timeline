@@ -267,7 +267,7 @@ export function stack(items, groupOrders, lineHeight, force) {
           if (collidingItem != null) {
             // There is a collision. Reposition the items above the colliding element
             item.dimensions.top = collidingItem.dimensions.top + lineHeight
-            groupHeight += 35
+            groupHeight += lineHeight
           }
         } while (collidingItem)
       }
