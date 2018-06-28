@@ -238,14 +238,14 @@ export function stack(items, groupOrders, lineHeight, force) {
     // calculate new, non-overlapping positions
     groupTops.push(totalHeight)
 
-    var groupHeight = 0
+    var groupHeight = 145
     var verticalMargin = 0
     for (i = 0, iMax = group.length; i < iMax; i++) {
       var item = group[i]
       verticalMargin = lineHeight - item.dimensions.height
 
       if (item.dimensions.stack && item.dimensions.top === null) {
-        item.dimensions.top = totalHeight + verticalMargin
+        item.dimensions.top = totalHeight + (groupHeight - item.dimensions.height) / 2
         groupHeight = Math.max(groupHeight, lineHeight)
         do {
           var collidingItem = null
@@ -267,17 +267,14 @@ export function stack(items, groupOrders, lineHeight, force) {
           if (collidingItem != null) {
             // There is a collision. Reposition the items above the colliding element
             item.dimensions.top = collidingItem.dimensions.top + lineHeight
-            groupHeight = Math.max(
-              groupHeight,
-              item.dimensions.top + item.dimensions.height - totalHeight
-            )
+            groupHeight += 35
           }
         } while (collidingItem)
       }
     }
 
-    groupHeights.push(Math.max(groupHeight + verticalMargin, lineHeight))
-    totalHeight += Math.max(groupHeight + verticalMargin, lineHeight)
+    groupHeights.push(Math.max(groupHeight, lineHeight))
+    totalHeight += Math.max(groupHeight, lineHeight)
   })
   return {
     height: totalHeight,
