@@ -23,6 +23,7 @@ class GroupRow extends Component {
     return (
       <PreventClickOnDrag clickTolerance={clickTolerance} onClick={onClick}>
         <div
+          data-tip={isLastRow ? "" : "Click to schedule Project"}
           onDoubleClick={onDoubleClick}
           className={isEvenRow ? 'rct-hl-even' : 'rct-hl-odd'}
           style={style}

@@ -637,7 +637,6 @@ export default class ReactCalendarTimeline extends Component {
   // from.  Look to consolidate the logic for determining coordinate to time
   // as well as generalizing how we get time from click on the canvas
   getTimeFromRowClickEvent = e => {
-    const { dragSnap } = this.props
     const { width, visibleTimeStart, visibleTimeEnd } = this.state
 
     // get coordinates relative to the component
@@ -645,13 +644,9 @@ export default class ReactCalendarTimeline extends Component {
 
     const x = e.clientX - parentPosition.x
 
-    // calculate the x (time) coordinate taking the dragSnap into account
-    let time = Math.round(
+    return Math.round(
       visibleTimeStart + x / width * (visibleTimeEnd - visibleTimeStart)
     )
-    time = Math.floor(time / dragSnap) * dragSnap
-
-    return time
   }
 
   timeFromItemEvent = e => {

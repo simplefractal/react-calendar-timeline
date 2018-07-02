@@ -39,6 +39,7 @@ export default class GroupRows extends Component {
           onDoubleClick={evt => onRowDoubleClick(evt, i)}
           key={`horizontal-line-${i}`}
           isEvenRow={i % 2 === 0}
+          isLastRow={i === lineCount - 1}
           style={{
             width: `${canvasWidth}px`,
             height: `${groupHeights[i] - 1}px`
