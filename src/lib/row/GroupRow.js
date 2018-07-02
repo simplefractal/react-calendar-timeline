@@ -15,6 +15,7 @@ class GroupRow extends Component {
     const {
       onDoubleClick,
       isEvenRow,
+      isLastRow,
       style,
       onClick,
       clickTolerance
