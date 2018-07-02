@@ -1023,7 +1023,6 @@ export default class ReactCalendarTimeline extends Component {
 
     const {
       keys,
-      dragSnap,
       lineHeight,
       headerLabelGroupHeight,
       headerLabelHeight,
@@ -1064,7 +1063,6 @@ export default class ReactCalendarTimeline extends Component {
         canvasTimeStart,
         canvasTimeEnd,
         canvasWidth,
-        dragSnap,
         dragTime,
         resizingEdge,
         resizeTime
