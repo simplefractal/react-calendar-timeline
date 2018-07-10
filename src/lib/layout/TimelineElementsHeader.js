@@ -54,6 +54,8 @@ export default class TimelineElementsHeader extends Component {
             ? f.monthMedium
             : width < 120 ? f.monthMediumLong : f.monthLong
       )
+    } else if (unit === 'week') {
+      return time.format(f.monthDay) + '-' + time.clone().add(6, 'd').format(f.dayOnly)
     } else if (unit === 'day') {
       return time.format(width < 150 ? f.dayShort : f.dayLong)
     } else if (unit === 'hour') {

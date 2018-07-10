@@ -24,6 +24,10 @@ export function calculateXPositionForTime(
 export function iterateTimes(start, end, unit, timeSteps, callback) {
   let time = moment(start).startOf(unit)
 
+  if (unit === getNextUnit('day')) {
+    time.add(1, 'day');
+  }
+
   if (timeSteps[unit] && timeSteps[unit] > 1) {
     let value = time.get(unit)
     time.set(unit, value - value % timeSteps[unit])
@@ -109,7 +113,8 @@ export function getNextUnit(unit) {
     second: 'minute',
     minute: 'hour',
     hour: 'day',
-    day: 'month',
+    day: 'week',
+    week: 'month',
     month: 'year'
   }
 
