@@ -889,6 +889,10 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   infoLabel() {
+    const { infoLabel } = this.props
+    if (infoLabel === false) {
+      return ''
+    }
     let label = null
 
     if (this.state.dragTime) {
