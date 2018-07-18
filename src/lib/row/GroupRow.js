@@ -18,7 +18,9 @@ class GroupRow extends Component {
       isLastRow,
       style,
       onClick,
-      clickTolerance
+      clickTolerance,
+      onMouseEnter,
+      isHovered
     } = this.props
 
     return (
@@ -26,8 +28,9 @@ class GroupRow extends Component {
         <div
           data-tip={isLastRow ? "" : "Click to schedule Project"}
           onDoubleClick={onDoubleClick}
-          className={isEvenRow ? 'rct-hl-even' : 'rct-hl-odd'}
+          className={`${isEvenRow ? 'rct-hl-even' : 'rct-hl-odd'} ${isHovered ? 'hovered' : ''}`}
           style={style}
+          onMouseEnter={onMouseEnter}
         />
       </PreventClickOnDrag>
     )

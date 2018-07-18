@@ -157,7 +157,7 @@ export default class TimelineElementsHeader extends Component {
               }`}
               onClick={() => this.handlePeriodClick(time, nextUnit)}
               style={{
-                left: `${left}px`,
+                left: `${left - 1}px`,
                 width: `${labelWidth}px`,
                 height: `${headerLabelGroupHeight}px`,
                 lineHeight: `${headerLabelGroupHeight}px`,

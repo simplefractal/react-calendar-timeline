@@ -60,7 +60,6 @@ export default class ReactCalendarTimeline extends Component {
     canResize: PropTypes.oneOf([true, false, 'left', 'right', 'both']),
     useResizeHandle: PropTypes.bool,
     canSelect: PropTypes.bool,
-
     stackItems: PropTypes.bool,
 
     traditionalZoom: PropTypes.bool,
@@ -297,7 +296,7 @@ export default class ReactCalendarTimeline extends Component {
       visibleTimeStart: visibleTimeStart,
       visibleTimeEnd: visibleTimeEnd,
       canvasTimeStart: visibleTimeStart - (visibleTimeEnd - visibleTimeStart),
-
+      hoveredGroup: null,
       selectedItem: null,
       dragTime: null,
       dragGroupTitle: null,
@@ -815,6 +814,13 @@ export default class ReactCalendarTimeline extends Component {
     this.props.onCanvasClick(groupId, time, e)
   }
 
+  handleRowEnter = (e, rowIndex) => {
+    this.setState({hoveredGroup: rowIndex })
+  }
+  handleMouseLeave = e => {
+    this.setState({ hoveredGroup: null })
+  }
+
   handleRowDoubleClick = (e, rowIndex) => {
     if (this.props.onCanvasDoubleClick == null) return
 
@@ -835,6 +841,8 @@ export default class ReactCalendarTimeline extends Component {
         clickTolerance={this.props.clickTolerance}
         onRowClick={this.handleRowClick}
         onRowDoubleClick={this.handleRowDoubleClick}
+        onRowEnter={this.handleRowEnter}
+        hoveredGroupId={this.state.hoveredGroup}
       />
     )
   }
@@ -984,6 +992,8 @@ export default class ReactCalendarTimeline extends Component {
           width={this.props.sidebarWidth}
           groupHeights={groupHeights}
           height={height}
+          onRowEnter={this.handleRowEnter}
+          hoveredGroupId={this.state.hoveredGroup}
         />
       )
     )
@@ -1255,6 +1265,7 @@ export default class ReactCalendarTimeline extends Component {
         style={this.props.style}
         ref={el => (this.container = el)}
         className="react-calendar-timeline"
+        onMouseLeave={this.handleMouseLeave}
       >
         {this.header(
           canvasTimeStart,

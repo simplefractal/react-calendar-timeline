@@ -20,14 +20,16 @@ export default class Sidebar extends Component {
       nextProps.keys === this.props.keys &&
       nextProps.width === this.props.width &&
       nextProps.groupHeights === this.props.groupHeights &&
-      nextProps.height === this.props.height
+      nextProps.height === this.props.height &&
+      nextProps.hoveredGroupId === this.props.hoveredGroupId
     )
   }
 
-  renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey) {
+  renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey, groupIndex) {
     if (this.props.groupRenderer) {
       return React.createElement(this.props.groupRenderer, {
         group,
+        hovered: this.props.hoveredGroupId === groupIndex,
         isRightSidebar
       })
     } else {
@@ -36,8 +38,7 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    const { width, groupHeights, height, isRightSidebar } = this.props
-
+    const { width, groupHeights, height, isRightSidebar, hoveredGroupId, onRowEnter } = this.props
     const { groupIdKey, groupTitleKey, groupRightTitleKey } = this.props.keys
 
     const sidebarStyle = {
@@ -57,21 +58,24 @@ export default class Sidebar extends Component {
         height: `${groupHeights[index] - 1}px`,
         lineHeight: `${groupHeights[index] - 1}px`
       }
-
+      const copyI = i
       groupLines.push(
         <div
           key={_get(group, groupIdKey)}
           className={
             'rct-sidebar-row' +
-            (i % 2 === 0 ? ' rct-sidebar-row-even' : ' rct-sidebar-row-odd')
+            (i % 2 === 0 ? ' rct-sidebar-row-even' : ' rct-sidebar-row-odd') +
+            (i === hoveredGroupId ? ' hovered' : '')
           }
           style={elementStyle}
+          onMouseEnter={evt => onRowEnter(evt, copyI)}
         >
           {this.renderGroupContent(
             group,
             isRightSidebar,
             groupTitleKey,
-            groupRightTitleKey
+            groupRightTitleKey,
+            i
           )}
         </div>
       )

@@ -16,7 +16,8 @@ export default class GroupRows extends Component {
     return !(
       nextProps.canvasWidth === this.props.canvasWidth &&
       nextProps.lineCount === this.props.lineCount &&
-      nextProps.groupHeights === this.props.groupHeights
+      nextProps.groupHeights === this.props.groupHeights &&
+      nextProps.hoveredGroupId === this.props.hoveredGroupId
     )
   }
 
@@ -27,10 +28,11 @@ export default class GroupRows extends Component {
       groupHeights,
       onRowClick,
       onRowDoubleClick,
-      clickTolerance
+      onRowEnter,
+      clickTolerance,
+      hoveredGroupId
     } = this.props
     let lines = []
-
     for (let i = 0; i < lineCount; i++) {
       lines.push(
         <GroupRow
@@ -44,6 +46,8 @@ export default class GroupRows extends Component {
             width: `${canvasWidth}px`,
             height: `${groupHeights[i] - 1}px`
           }}
+          onMouseEnter={evt => onRowEnter(evt, i)}
+          isHovered={hoveredGroupId === i}
         />
       )
     }
