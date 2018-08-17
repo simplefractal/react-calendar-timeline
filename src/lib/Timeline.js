@@ -18,7 +18,7 @@ import {
   getMinUnit,
   getNextUnit,
   stack,
-  nostack,
+  // nostack,
   calculateDimensions,
   getGroupOrders,
   getVisibleItems
@@ -31,6 +31,64 @@ import {
   defaultHeaderLabelFormats,
   defaultSubHeaderLabelFormats
 } from './default-config'
+export function getGroupedItems(items, groupOrders) {
+  var arr = []
+
+  // Initialize with empty arrays for each group
+  for (let i = 0; i < Object.keys(groupOrders).length; i++) {
+    arr[i] = []
+  }
+  // Populate groups
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].dimensions.order !== undefined) {
+      arr[items[i].dimensions.order].push(items[i])
+    }
+  }
+
+  return arr
+}
+
+
+export function nostack(items, groupOrders, lineHeight, force, activitiesArray) {
+  var i, iMax
+  var totalHeight = 0
+
+  var groupHeights = []
+  var groupTops = []
+
+  var groupedItems = getGroupedItems(items, groupOrders)
+
+  if (force) {
+    // reset top position of all items
+    for (i = 0, iMax = items.length; i < iMax; i++) {
+      items[i].dimensions.top = null
+    }
+  }
+
+  groupedItems.forEach(function(group, index) {
+    // calculate new, non-overlapping positions
+    groupTops.push(totalHeight)
+
+    var groupHeight = 80
+    for (i = 0, iMax = group.length; i < iMax; i++) {
+      var item = group[i]
+      var verticalMargin = (lineHeight - item.dimensions.height) / 2
+
+      if (item.dimensions.top === null) {
+        item.dimensions.top = totalHeight + (groupHeight - item.dimensions.height) / 2
+        groupHeight = Math.max(groupHeight, lineHeight)
+      }
+    }
+    const activitiesHeight = activitiesArray ? activitiesArray[index] * 30 : 0
+    groupHeights.push(Math.max(groupHeight, lineHeight) + activitiesHeight)
+    totalHeight += Math.max(groupHeight, lineHeight) + activitiesHeight
+  })
+  return {
+    height: totalHeight,
+    groupHeights,
+    groupTops
+  }
+}
 
 export default class ReactCalendarTimeline extends Component {
   static propTypes = {
@@ -1102,12 +1160,21 @@ export default class ReactCalendarTimeline extends Component {
 
     const stackingMethod = stackItems ? stack : nostack
 
+
+
+    let groupActivitiesArray
+    if (!stackItems){
+      groupActivitiesArray = groups.map(group => group.activityRows ? Object.keys(group.activityRows).length : 0)
+    }
+
     const { height, groupHeights, groupTops } = stackingMethod(
       dimensionItems,
       groupOrders,
       lineHeight,
-      headerHeight
+      headerHeight,
+      groupActivitiesArray
     )
+
 
     return { dimensionItems, height, groupHeights, groupTops }
   }
@@ -1358,3 +1425,4 @@ export default class ReactCalendarTimeline extends Component {
     )
   }
 }
+

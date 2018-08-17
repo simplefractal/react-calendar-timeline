@@ -55,8 +55,7 @@ export default class Sidebar extends Component {
 
     this.props.groups.forEach((group, index) => {
       const elementStyle = {
-        height: `${groupHeights[index] - 1}px`,
-        lineHeight: `${groupHeights[index] - 1}px`
+        height: `${groupHeights[index] - 1}px`
       }
       const copyI = i
       groupLines.push(
