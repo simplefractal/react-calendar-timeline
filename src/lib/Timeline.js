@@ -79,7 +79,7 @@ export function nostack(items, groupOrders, lineHeight, force, activitiesArray) 
         groupHeight = Math.max(groupHeight, lineHeight)
       }
     }
-    const activitiesHeight = activitiesArray ? activitiesArray[index] * 50 : 0
+    const activitiesHeight = activitiesArray ? activitiesArray[index] * 30 : 0
     groupHeights.push(Math.max(groupHeight, lineHeight) + activitiesHeight)
     totalHeight += Math.max(groupHeight, lineHeight) + activitiesHeight
   })
