@@ -111,6 +111,7 @@ export default class Items extends Component {
     const { itemTimeStartKey, itemTimeEndKey } = this.props.keys
 
     return this.props.items.filter(item => {
+
       return (
         _get(item, itemTimeStartKey) <= canvasTimeEnd &&
         _get(item, itemTimeEndKey) >= canvasTimeStart

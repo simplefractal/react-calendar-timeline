@@ -49,7 +49,7 @@ export function getGroupedItems(items, groupOrders) {
 }
 
 
-export function nostack(items, groupOrders, lineHeight, force, activitiesArray) {
+export function nostack(items, groupOrders, lineHeight, force, activitiesArray, ignoreActivitiesHeight) {
   var i, iMax
   var totalHeight = 0
 
@@ -79,7 +79,7 @@ export function nostack(items, groupOrders, lineHeight, force, activitiesArray) 
         groupHeight = Math.max(groupHeight, lineHeight)
       }
     }
-    const activitiesHeight = activitiesArray ? activitiesArray[index] * 30 : 0
+    const activitiesHeight = ignoreActivitiesHeight ? 0 : activitiesArray ? activitiesArray[index] * 30 : 0
     groupHeights.push(Math.max(groupHeight, lineHeight) + activitiesHeight)
     totalHeight += Math.max(groupHeight, lineHeight) + activitiesHeight
   })
@@ -229,6 +229,7 @@ export default class ReactCalendarTimeline extends Component {
     headerLabelGroupHeight: 30,
     headerLabelHeight: 30,
     itemHeightRatio: 0.65,
+    ignoreActivitiesHeight: false,
     minimumWidthForItemContentVisibility: 25,
 
     minZoom: 60 * 60 * 1000, // 1 hour
@@ -1099,7 +1100,8 @@ export default class ReactCalendarTimeline extends Component {
       headerLabelGroupHeight,
       headerLabelHeight,
       stackItems,
-      itemHeightRatio
+      itemHeightRatio,
+      ignoreActivitiesHeight
     } = this.props
     const {
       draggingItem,
@@ -1172,7 +1174,8 @@ export default class ReactCalendarTimeline extends Component {
       groupOrders,
       lineHeight,
       headerHeight,
-      groupActivitiesArray
+      groupActivitiesArray,
+      ignoreActivitiesHeight
     )
 
 
