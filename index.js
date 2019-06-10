@@ -1,3 +1,5 @@
-import Timeline from './lib/lib/Timeline'
+const Timeline = require('./lib/lib/Timeline')
 
-export default Timeline
+module.exports = {
+  Timeline: Timeline.default
+}
